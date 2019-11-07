@@ -1,0 +1,53 @@
+//- player-info.pug
+include ../partials/header.pug
+include ../partials/menu.pug
+
+div.container
+  br
+  div.row
+    div.col-4
+      div.card
+        //- TODO: Modify the pug code below to conditionally set the image_src
+        - let image_src = '../../resources/img/helmet.jpg'
+
+        -if(pData)
+          for item4 in pData
+            img.card-img-top#player_img(src='../'+item4.img_src, alt="Football Player")
+        -else
+          img.card-img-top#player_img(src= image_src, alt="Football Player")
+        div.card-body.mx-auto
+          form.form(action="/player_info/post", method="get")
+            select.custom-select(name="player_choice", onchange="this.form.submit()")
+              -if(nData)
+                for item in nData
+                  option(value=item.id)=item.name
+              //- TODO: Populate the select with player options. Set the value to the player's id and display the player's name.
+    div.col-8
+      -if(gPly)
+        for item3 in gPly
+          -var gplayed =item3.count
+            div.table-responsive
+              table.table
+                //- TODO: Set the player's information. On select, fill in the player's information in each of the field below. You will need to calculate the average rushing, receiving, and passing yards.
+                -if(pData)
+                  for item2 in pData
+                    tr
+                      th Year
+                      td=item2.year
+                    tr
+                      th Major
+                      td=item2.major
+                    tr
+                      th Games Played
+                      td=gplayed
+                    tr
+                      td='Passing Yards: ' + item2.passing_yards
+                      td='Avg. Passing Yards: ' + (item2.passing_yards/gplayed)
+                    tr
+                      td='Rushing Yards: ' + item2.rushing_yards 
+                      td='Avg. Rushing Yards: ' + (item2.rushing_yards/gplayed)
+                    tr
+                      td='Receiving Yards: ' + item2.receiving_yards
+                      td='Avg. Receiving Yards: ' + (item2.receiving_yards/gplayed)
+
+include ../partials/footer.pug
